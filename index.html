@@ -13,7 +13,16 @@
     </div>
     <script>
         const canvas = document.getElementById("game-layer");
+        const background = document.getElementById("background-layer");
+        const backgroundContext = background.getContext('2d');
         const c = canvas.getContext('2d')
+
+        backgroundImage = new Image();
+        backgroundImage.src = './background.jpg';
+
+        backgroundImage.onload = () => {
+            backgroundContext.drawImage(backgroundImage, 0, 0, 1000, 500);
+        }
 
         sprites = [];
         sprites.push(new Sprite({}));
@@ -23,8 +32,6 @@
         for (var i = 0; i < sprites.length; i += 1) {
             sprites[i].generateRandom();
         }
-
-        step();
 
         function step() {
             clear();
@@ -40,11 +47,13 @@
             }
         }
 
+        step();
+
         // Listen for mouse moves
         canvas.addEventListener('click', function (event) {
             for (var i = 0; i < sprites.length; i += 1) {
                 if (sprites[i].isInHitBox(event.offsetX, event.offsetY)) {
-                    sprites.splice(i, 1);
+                    sprites[i].generateRandom();
                     step();
                 }
             }

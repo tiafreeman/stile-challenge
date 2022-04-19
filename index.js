@@ -1,22 +1,40 @@
 class Sprite {
-    constructor({ }) {
+    constructor({ size }) {
         this.position = {
             x: 0,
             y: 0
         },
             this.hitbox = {
-                width: 50,
-                height: 150
+                width: 200,
+                height: 100
+            },
+            this.image = new Image(),
+            this.image.src = './fish-small.png',
+            this.isSmall = true,
+            this.small = {
+                width: 100,
+                height: 53
+            },
+            this.large = {
+                width: 200,
+                height: 107
             }
     }
 
-    draw() {
-        c.fillStyle = 'red';
-        c.fillRect(this.position.x, this.position.y, 50, 150);
 
-        c.fillStyle = 'none';
-        c.rect(this.position.x, this.position.y, this.width, this.height);
-        c.fill();
+    draw() {
+        this.image.onload = () => {
+            if (this.isSmall) {
+                c.drawImage(this.image, this.position.x, this.position.y, this.small.width, this.small.height);
+            } else {
+                c.drawImage(this.image, this.position.x, this.position.y, this.large.width, this.large.height);
+            }
+        }
+        if (this.isSmall) {
+            c.drawImage(this.image, this.position.x, this.position.y, this.small.width, this.small.height);
+        } else {
+            c.drawImage(this.image, this.position.x, this.position.y, this.large.width, this.large.height);
+        }
     }
 
     isInHitBox(x, y) {
@@ -26,5 +44,6 @@ class Sprite {
     generateRandom() {
         this.position.x = Math.floor(Math.random() * 800) + 100;
         this.position.y = Math.floor(Math.random() * 300) + 50;
+        this.isSmall = Math.random() >= 0.2;
     }
 }
