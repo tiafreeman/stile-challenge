@@ -8,7 +8,6 @@
 <body>
     <script src="index.js"></script>
     <div id="stage">
-        <canvas id="ui-layer" width="1000" height="500"></canvas>
         <canvas id="game-layer" width="1000" height="500"></canvas>
         <canvas id="background-layer" width="1000" height="500"></canvas>
     </div>
@@ -16,16 +15,40 @@
         const canvas = document.getElementById("game-layer");
         const c = canvas.getContext('2d')
 
-        c.fillRect(0, 0, canvas.width, canvas.height)
+        sprites = [];
+        sprites.push(new Sprite({}));
+        sprites.push(new Sprite({}));
+        sprites.push(new Sprite({}));
 
-        const player = new Sprite({
-            position: {
-                x: 0,
-                y: 0
-            },
+        for (var i = 0; i < sprites.length; i += 1) {
+            sprites[i].generateRandom();
+        }
+
+        step();
+
+        function step() {
+            clear();
+            drawSprites();
+        }
+        function clear() {
+            c.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function drawSprites() {
+            for (var i = 0; i < sprites.length; i += 1) {
+                sprites[i].draw();
+            }
+        }
+
+        // Listen for mouse moves
+        canvas.addEventListener('click', function (event) {
+            for (var i = 0; i < sprites.length; i += 1) {
+                if (sprites[i].isInHitBox(event.offsetX, event.offsetY)) {
+                    sprites.splice(i, 1);
+                    step();
+                }
+            }
         });
-
-        player.draw();
     </script>
 </body>
 
