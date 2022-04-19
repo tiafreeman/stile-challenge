@@ -6,16 +6,16 @@
 </head>
 
 <body>
-    <script src="index.js"></script>
+    <script src="sprite.js"></script>
     <div id="stage">
         <canvas id="game-layer" width="1000" height="500"></canvas>
         <canvas id="background-layer" width="1000" height="500"></canvas>
     </div>
     <script>
-        const canvas = document.getElementById("game-layer");
-        const background = document.getElementById("background-layer");
-        const backgroundContext = background.getContext('2d');
-        const c = canvas.getContext('2d')
+        const gameCanvas = document.getElementById("game-layer");
+        const backgroundCanvas = document.getElementById("background-layer");
+        const backgroundContext = backgroundCanvas.getContext('2d');
+        const gameContext = gameCanvas.getContext('2d')
 
         backgroundImage = new Image();
         backgroundImage.src = './background.jpg';
@@ -28,6 +28,10 @@
         sprites.push(new Sprite({}));
         sprites.push(new Sprite({}));
         sprites.push(new Sprite({}));
+        sprites.push(new Sprite({}));
+        sprites.push(new Sprite({}));
+        sprites.push(new Sprite({}));
+
 
         for (var i = 0; i < sprites.length; i += 1) {
             sprites[i].generateRandom();
@@ -38,7 +42,7 @@
             drawSprites();
         }
         function clear() {
-            c.clearRect(0, 0, canvas.width, canvas.height);
+            gameContext.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
         }
 
         function drawSprites() {
@@ -50,7 +54,7 @@
         step();
 
         // Listen for mouse moves
-        canvas.addEventListener('click', function (event) {
+        gameCanvas.addEventListener('click', function (event) {
             for (var i = 0; i < sprites.length; i += 1) {
                 if (sprites[i].isInHitBox(event.offsetX, event.offsetY)) {
                     sprites[i].generateRandom();
